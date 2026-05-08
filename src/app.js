@@ -1,6 +1,8 @@
 //importing the express server
 const express = require("express");
 
+const { adminAuth, userAuth } = require("./middleware/Auth");
+
 //now server is ready
 const app = express();
 
@@ -11,19 +13,12 @@ app.listen(3000, () => {
   console.log("server is listerning port 3000");
 });
 
-app.post("/user", (req, res) => {
-  res.send("posted data and saved in DB success");
+app.use("/admin", adminAuth);
+
+app.use("/user", userAuth, (req, res) => {
+  res.send("user data ");
 });
 
-app.get("/user/:userid", (req, res) => {
-  console.log(req.params);
-  res.send({ firstname: "varshini", lastName: "R" });
-});
-
-app.patch("/user", (req, res) => {
-  res.send("data modified success");
-});
-
-app.delete("/user", (req, res) => {
-  res.send("user deleter success");
+app.use("/admin/delete", (req, res) => {
+  res.send("deleted data");
 });
