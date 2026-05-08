@@ -1,24 +1,25 @@
 //importing the express server
 const express = require("express");
-
-const { adminAuth, userAuth } = require("./middleware/Auth");
+const connectDB = require("./config/database");
+const User = require("./models/user");
 
 //now server is ready
 const app = express();
+app.use(express.json());
 
-//now need to listern the server port for my reference
-// i have added the console else just server listen and just blink on teminal
-
-app.listen(3000, () => {
-  console.log("server is listerning port 3000");
+app.post("/signup", async (req, res) => {
+  const user = new User(req.body);
+  await user.save();
+  res.send("user added successfully");
 });
 
-app.use("/admin", adminAuth);
-
-app.use("/user", userAuth, (req, res) => {
-  res.send("user data ");
-});
-
-app.use("/admin/delete", (req, res) => {
-  res.send("deleted data");
-});
+connectDB()
+  .then(() => {
+    console.log("database conection established");
+    app.listen(3000, () => {
+      console.log("server is listening port 3000");
+    });
+  })
+  .catch((err) => {
+    console.log(err + "connection failed");
+  });
