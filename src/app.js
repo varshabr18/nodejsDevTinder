@@ -1,29 +1,29 @@
+//importing the express server
 const express = require("express");
 
+//now server is ready
 const app = express();
 
-app.get("/hello", (req, res, next) => {
-  const token = "xyz";
-  const isAuthorizedadmin = token === "xyz";
-  if (!isAuthorizedadmin) {
-    res.status(404).send("Admin not authorized");
-  } else {
-    next();
-  }
+//now need to listern the server port for my reference
+// i have added the console else just server listen and just blink on teminal
+
+app.listen(3000, () => {
+  console.log("server is listerning port 3000");
 });
 
-app.get("/hello/getAllData", (req, res) => {
-  res.send("got all data");
+app.use("/hello/1", (req, res) => {
+  res.send("hello 1 hello 1 heelo 1 ");
 });
 
-// app.get(/ab+cd/, (req, res) => {
-//   res.send({ firstname: "varsha", lastname: "gowda" });
-// });
+app.use("/hello", (req, res) => {
+  res.send("hello hello");
+});
 
-// app.get("/ab*cd", (req, res) => {
-//   res.send({ firstname: "varsha", lastname: "gowda" });
-// });
+app.use("/test", (req, res) => {
+  res.send("test test");
+});
 
-app.listen("3000", () => {
-  console.log("server up and running in 3000 posrt");
+// need to give the response to the user or we can say request handler
+app.use("/", (req, res) => {
+  res.send("hello from the server");
 });
