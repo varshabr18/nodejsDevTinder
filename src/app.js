@@ -11,16 +11,12 @@ app.listen(3000, () => {
   console.log("server is listerning port 3000");
 });
 
-app.use("/", (req, res) => {
-  res.send("i am overriding all HTTP methods");
-});
-
 app.post("/user", (req, res) => {
   res.send("posted data and saved in DB success");
 });
 
-
-app.get("/user", (req, res) => {
+app.get("/user/:userid", (req, res) => {
+  console.log(req.params);
   res.send({ firstname: "varshini", lastName: "R" });
 });
 
